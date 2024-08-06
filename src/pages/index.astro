@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Léo Mindlin">
+  <main class="max-w-md flex flex-col gap-4">
+    <h1 class="text-4xl">Léo Mindlin</h1>
+    <a class="font-mono" href="mailto:leo@mindlin.xyz">leo@mindlin.xyz</a>
+    <p>Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/">McGill University</a> studying software engineering in the <a target="_blank" href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op">Co-op Program</a>. Originally from sunny Santa Monica, California.</p>
+    <p>Interested in web development, native iOS development, graphics programming, smart home automation, and the Internet of Things.</p>
+    <p>I'm currently making projects with <a target="_blank" href="https://www.swift.org/">Swift</a>, <a target="_blank" href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a>, <a target="_blank" href="https://nextjs.org/">Next.JS</a>, <a href="https://astro.build/" target="_blank">Astro</a>, and <a href="https://neovim.io/" target="_blank">NeoVim</a>. I also enjoy using Blender, Final Cut, Photoshop, and After Effects.</p>
+
+    <hr />
+
+    <h2 class="text-3xl">My Work</h2>
+
+    <table>
+      <tr class="cursor-pointer">
+        <td class="py-3">2024</td>
+        <td>TellAVision Agency Website</td>
+        <td class="text-right">Next.JS</td>
+      </tr>
+      <tr class="border-t cursor-pointer">
+        <td class="py-3">2024</td>
+        <td>Portfolio Website</td>
+        <td class="text-right">Astro</td>
+      </tr>
+      <tr class="border-t cursor-pointer">
+        <td class="py-3">2024</td>
+        <td>TellAVision Agency Website</td>
+        <td class="text-right">Next.JS</td>
+      </tr>
+    </table>
+	</main>
+</Layout>
+
+<style is:global>
+
+
+tr:hover {
+    color: hsl(0, 0%, 15%);
+    font-weight: 475;
+    transition: all 0.15s ease-out;
+  }
+
+  h1 {
+    color: hsl(0, 0%, 15%);
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+  color: hsl(0, 0%, 15%);
+}
+
+  a {
+    color: hsl(0, 0%, 15%);
+    font-weight: 475;
+    transition: all 0.15s ease-out;
+  }
+
+  a:hover {
+    font-weight: 650;
+  }
+</style>
