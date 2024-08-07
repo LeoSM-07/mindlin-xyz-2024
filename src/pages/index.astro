@@ -38,7 +38,7 @@ const entries = [
 ---
 
 <Layout title="Léo Mindlin">
-  <main class="max-w-md space-y-4">
+  <main class="max-w-md w-full space-y-4 pb-10">
     <h1 class="text-4xl">Léo Mindlin</h1>
     <a class="font-mono" href="mailto:leo@mindlin.xyz">leo@mindlin.xyz</a>
     <p>Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/">McGill University</a> studying software engineering in the <a target="_blank" href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op">Co-op Program</a>. Originally from sunny Santa Monica, California.</p>
@@ -49,7 +49,7 @@ const entries = [
 
     <h2 class="text-3xl">My Work</h2>
 
-    <table class="w-full">
+    <table class="w-full pb-5">
 {entries.map((entry) => (
   <tr id={entry.id} class="border-t first:border-none cursor-pointer">
     <td class="py-3">{entry.date}</td>
@@ -59,21 +59,29 @@ const entries = [
 ))}
     </table>
   </main>
-  <aside class="w-full gap-2 fade-element space-y-2">
+  <div class="w-full gap-2">
+  <aside class="fade-element space-y-2 ">
     <h3 class="text-3xl">Stairway Ticketing System V1</h3>
     <p>An event ticketing platform that was created to serve the specific needs of the <a href="https://www.smmusd.org/" target="_blank">Santa Monica-Malibu Unified School District</a>. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.</p>
     <Image src={stairway} alt="Preview of project" />
   </aside>
+  </div>
 </Layout>
 
 <script>
+// @ts-ignore
+let timeoutId;
 document.querySelector('#stairway-1')?.addEventListener('mouseenter', function() {
   let fadeElement = document.querySelector('.fade-element');
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return };
   // @ts-ignore
   fadeElement.style.display = 'block';
-  setTimeout(() => {
+
+  console.log("mouse enter")
+  // @ts-ignore
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(() => {
   // @ts-ignore
     fadeElement.style.opacity = '1'
   // @ts-ignore
@@ -86,6 +94,8 @@ document.querySelector('#stairway-1')?.addEventListener('click', function() {
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return };
 
+  console.log('toggled shown')
+
   fadeElement.classList.toggle('shown')
 })
 
@@ -93,13 +103,17 @@ document.querySelector('#stairway-1')?.addEventListener('mouseleave', function()
   let fadeElement = document.querySelector('.fade-element');
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return }
-  else if (fadeElement.classList.contains('shown')) { return };
+  else if (fadeElement.classList.contains('shown')) { console.log("Didnt bc of shown"); return };
+
+  console.log("mouse leave")
   // @ts-ignore
     fadeElement.style.transform = 'translateY(20px)';
   // @ts-ignore
     fadeElement.style.opacity = '0';
   // @ts-ignore
-    setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
+    clearTimeout(timeoutId);
+  // @ts-ignore
+    timeoutId = setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
 });
 </script>
 
