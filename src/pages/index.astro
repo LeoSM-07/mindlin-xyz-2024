@@ -1,9 +1,44 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import stairway from "../images/stairway.png"
+import { Image } from 'astro:assets';
+
+interface Data {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  tech: string;
+  image: string;
+}
+
+const entries = [
+  {
+    id: "tellavision",
+    title: "TellAVision Agency Website",
+    description: "A website for a fictional marketing agency that specializes in video production and social media marketing. This project was completed as a part of my web development course at McGill University.",
+    date: "2024",
+    tech: "Next.JS"
+  },
+  {
+    id: "portfolio",
+    title: "Portfolio Website",
+    description: "This website! I wanted to create a simple, fast, and accessible portfolio website that would showcase my work and provide a little bit of information about me.",
+    date: "2024",
+    tech: "Astro"
+  },
+  {
+    id: "stairway-1",
+    title: "Stairway Ticketing System V1",
+    description: "An event ticketing platform that was created to serve the specific needs of the Santa Monica-Malibu Unified School District. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.",
+    date: "2024",
+    tech: "Next.JS"
+  }
+]
 ---
 
 <Layout title="Léo Mindlin">
-  <main class="max-w-md flex flex-col gap-4">
+  <main class="max-w-md space-y-4">
     <h1 class="text-4xl">Léo Mindlin</h1>
     <a class="font-mono" href="mailto:leo@mindlin.xyz">leo@mindlin.xyz</a>
     <p>Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/">McGill University</a> studying software engineering in the <a target="_blank" href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op">Co-op Program</a>. Originally from sunny Santa Monica, California.</p>
@@ -14,29 +49,67 @@ import Layout from '../layouts/Layout.astro';
 
     <h2 class="text-3xl">My Work</h2>
 
-    <table>
-      <tr class="cursor-pointer">
-        <td class="py-3">2024</td>
-        <td>TellAVision Agency Website</td>
-        <td class="text-right">Next.JS</td>
+    <table class="w-full">
+{entries.map((entry) => (
+  <tr id={entry.id} class="border-t first:border-none cursor-pointer">
+    <td class="py-3">{entry.date}</td>
+    <td>{entry.title}</td>
+    <td class="text-right">{entry.tech}</td>
       </tr>
-      <tr class="border-t cursor-pointer">
-        <td class="py-3">2024</td>
-        <td>Portfolio Website</td>
-        <td class="text-right">Astro</td>
-      </tr>
-      <tr class="border-t cursor-pointer">
-        <td class="py-3">2024</td>
-        <td>Stairway Ticketing System V1</td>
-        <td class="text-right">Next.JS</td>
-      </tr>
+))}
     </table>
-	</main>
+  </main>
+  <aside class="w-full gap-2 fade-element space-y-2">
+    <h3 class="text-3xl">Stairway Ticketing System V1</h3>
+    <p>An event ticketing platform that was created to serve the specific needs of the <a href="https://www.smmusd.org/" target="_blank">Santa Monica-Malibu Unified School District</a>. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.</p>
+    <Image src={stairway} alt="Preview of project" />
+  </aside>
 </Layout>
 
+<script>
+document.querySelector('#stairway-1')?.addEventListener('mouseenter', function() {
+  let fadeElement = document.querySelector('.fade-element');
+  if (!fadeElement) { return }
+  else if (window.innerWidth < 768) { return };
+  // @ts-ignore
+  fadeElement.style.display = 'block';
+  setTimeout(() => {
+  // @ts-ignore
+    fadeElement.style.opacity = '1'
+  // @ts-ignore
+    fadeElement.style.transform = 'translateY(0)';
+  }, 10); // Small timeout to trigger the transition
+});
+
+document.querySelector('#stairway-1')?.addEventListener('click', function() {
+  let fadeElement = document.querySelector('.fade-element');
+  if (!fadeElement) { return }
+  else if (window.innerWidth < 768) { return };
+
+  fadeElement.classList.toggle('shown')
+})
+
+document.querySelector('#stairway-1')?.addEventListener('mouseleave', function() {
+  let fadeElement = document.querySelector('.fade-element');
+  if (!fadeElement) { return }
+  else if (window.innerWidth < 768) { return }
+  else if (fadeElement.classList.contains('shown')) { return };
+  // @ts-ignore
+    fadeElement.style.transform = 'translateY(20px)';
+  // @ts-ignore
+    fadeElement.style.opacity = '0';
+  // @ts-ignore
+    setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
+});
+</script>
+
 <style is:global>
-
-
+.fade-element {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  display: none;
+}
 tr:hover {
     color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
     font-weight: 475;
@@ -54,6 +127,9 @@ h2 {
     color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
 }
 
+h3 {
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+}
   a {
     color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
     font-weight: 475;

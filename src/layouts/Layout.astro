@@ -14,6 +14,7 @@ const { title } = Astro.props;
 		<meta name="description" content="" />
     <meta name="viewport" content="width=device-width" />
     <meta property="og:title" content="Léo Mindlin | Student & Developer"/>
+    <meta property="og:site_name" content="Léo Mindlin">
     <meta property="og:description" content="Student at McGill passionate about development." />
     <meta property="og:image" content="https://mindlin.xyz/og-image.png"/>
     <meta property="og:url" content="https://mindlin.xyz/" />
@@ -22,7 +23,7 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
 		<title>{title}</title>
 	</head>
-	<body>
+	<body class="p-5 sm:p-10 lg:space-x-20 space-x-10 flex flex-row">
 		<slot />
 	</body>
 </html>
