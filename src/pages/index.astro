@@ -82,6 +82,7 @@ const entries: Data[] = [
 </Layout>
 
 <script define:vars={{ entries }}>
+let currentId = '';
 // @ts-ignore
 let timeoutId;
 
@@ -94,8 +95,7 @@ document.querySelectorAll('tr').forEach((element) => {
 
     const entry = entries.find((entry) => entry.id === element.id);
 
-    if (fadeElement.style.display === 'block') {
-console.log("a")
+    if (fadeElement.style.display === 'block' && currentId !== entry.id) {
   // @ts-ignore
     fadeElement.style.transform = 'translateY(20px)';
   // @ts-ignore
@@ -107,16 +107,17 @@ console.log("a")
         fadeElement.querySelector('p').textContent = entry.description;
         fadeElement.querySelector('img').src = "";
         fadeElement.querySelector('img').src = entry.image;
+        currentId = entry.id;
     fadeElement.style.opacity = '1'
   // @ts-ignore
     fadeElement.style.transform = 'translateY(0)';
       }, 500);
 
     } else {
-      console.log("b")
         fadeElement.querySelector('h3').textContent = entry.title;
         fadeElement.querySelector('p').textContent = entry.description;
-        fadeElement.querySelector('img').src = entry.image;
+      fadeElement.querySelector('img').src = entry.image;
+      currentId = entry.id;
       // @ts-ignore
       fadeElement.style.display = 'block';
       clearTimeout(timeoutId);
@@ -147,17 +148,18 @@ document.querySelector('table')?.addEventListener('mouseleave', function() {
   let fadeElement = document.querySelector('.fade-element');
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return }
-  else if (fadeElement.classList.contains('shown')) { console.log("Didnt bc of shown"); return };
+  else if (fadeElement.classList.contains('shown')) { return };
 
-  console.log("mouse leave")
   // @ts-ignore
     fadeElement.style.transform = 'translateY(20px)';
   // @ts-ignore
-    fadeElement.style.opacity = '0';
+  fadeElement.style.opacity = '0';
+  currentId = '';
   // @ts-ignore
-    clearTimeout(timeoutId);
+  clearTimeout(timeoutId);
   // @ts-ignore
-    timeoutId = setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
+  timeoutId = setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
+
 });
 </script>
 
