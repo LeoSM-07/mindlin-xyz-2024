@@ -1,7 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import stairway from "../images/stairway.png"
-import { Image } from 'astro:assets';
 
 interface Data {
   id: string;
@@ -12,33 +10,44 @@ interface Data {
   image: string;
 }
 
-const entries = [
+const entries: Data[] = [
   {
     id: "tellavision",
     title: "TellAVision Agency Website",
     description: "A website for a fictional marketing agency that specializes in video production and social media marketing. This project was completed as a part of my web development course at McGill University.",
     date: "2024",
-    tech: "Next.JS"
+    tech: "Next.JS",
+    image: "images/tellavision.png",
   },
   {
     id: "portfolio",
     title: "Portfolio Website",
     description: "This website! I wanted to create a simple, fast, and accessible portfolio website that would showcase my work and provide a little bit of information about me.",
     date: "2024",
-    tech: "Astro"
+    tech: "Astro",
+    image: "",
   },
   {
     id: "stairway-1",
     title: "Stairway Ticketing System V1",
     description: "An event ticketing platform that was created to serve the specific needs of the Santa Monica-Malibu Unified School District. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.",
     date: "2024",
-    tech: "Next.JS"
+    tech: "Next.JS",
+    image: "/images/stairway.png",
+  },
+  {
+    id: "stairway-program",
+    title: "Stairway of the Stars 2024 Event Program",
+    description: "Designed and created the event program for the 2024 Stairway of the Stars event.",
+    date: "2024",
+    tech: "Affinity Publisher",
+    image: "/images/stairway-program.jpeg"
   }
 ]
 ---
 
 <Layout title="Léo Mindlin">
-  <main class="max-w-md w-full space-y-4 pb-10">
+  <main class="max-w-md min-w-[28rem] w-full space-y-4 pb-10">
     <h1 class="text-4xl">Léo Mindlin</h1>
     <a class="font-mono" href="mailto:leo@mindlin.xyz">leo@mindlin.xyz</a>
     <p>Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/">McGill University</a> studying software engineering in the <a target="_blank" href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op">Co-op Program</a>. Originally from sunny Santa Monica, California.</p>
@@ -47,59 +56,94 @@ const entries = [
 
     <hr />
 
+    <div class="space-y-1">
     <h2 class="text-3xl">My Work</h2>
 
-    <table class="w-full pb-5">
+    <table class="w-full">
 {entries.map((entry) => (
-  <tr id={entry.id} class="border-t first:border-none cursor-pointer">
-    <td class="py-3">{entry.date}</td>
-    <td>{entry.title}</td>
-    <td class="text-right">{entry.tech}</td>
+  <tr id={entry.id} class="border-t first:border-none cursor-pointer align-top">
+    <td class="pr-2 py-3">{entry.date}</td>
+    <td class="py-3">{entry.title}</td>
+    <td class="text-right py-3">{entry.tech}</td>
       </tr>
 ))}
     </table>
+    </div>
   </main>
   <div class="w-full gap-2">
   <aside class="fade-element space-y-2 ">
     <h3 class="text-3xl">Stairway Ticketing System V1</h3>
-    <p>An event ticketing platform that was created to serve the specific needs of the <a href="https://www.smmusd.org/" target="_blank">Santa Monica-Malibu Unified School District</a>. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.</p>
-    <Image src={stairway} alt="Preview of project" />
+      <p>An event ticketing platform that was created to serve the specific needs of the <a href="https://www.smmusd.org/" target="_blank">Santa Monica-Malibu Unified School District</a>. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.</p>
+      <div class="w-full flex flex-row justify-center">
+        <img src="" class="" alt="" />
+      </div>
   </aside>
   </div>
 </Layout>
 
-<script>
+<script define:vars={{ entries }}>
 // @ts-ignore
 let timeoutId;
-document.querySelector('#stairway-1')?.addEventListener('mouseenter', function() {
-  let fadeElement = document.querySelector('.fade-element');
-  if (!fadeElement) { return }
-  else if (window.innerWidth < 768) { return };
-  // @ts-ignore
-  fadeElement.style.display = 'block';
 
-  console.log("mouse enter")
+document.querySelectorAll('tr').forEach((element) => {
+  element.addEventListener('mouseenter', function() {
+    let fadeElement = document.querySelector('.fade-element');
+    if (!fadeElement) { return }
+    else if (window.innerWidth < 768) { return };
+
+
+    const entry = entries.find((entry) => entry.id === element.id);
+
+    if (fadeElement.style.display === 'block') {
+console.log("a")
   // @ts-ignore
-  clearTimeout(timeoutId);
-  timeoutId = setTimeout(() => {
+    fadeElement.style.transform = 'translateY(20px)';
   // @ts-ignore
+    fadeElement.style.opacity = '0';
+
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        fadeElement.querySelector('h3').textContent = entry.title;
+        fadeElement.querySelector('p').textContent = entry.description;
+        fadeElement.querySelector('img').src = "";
+        fadeElement.querySelector('img').src = entry.image;
     fadeElement.style.opacity = '1'
   // @ts-ignore
     fadeElement.style.transform = 'translateY(0)';
-  }, 10); // Small timeout to trigger the transition
+      }, 500);
+
+    } else {
+      console.log("b")
+        fadeElement.querySelector('h3').textContent = entry.title;
+        fadeElement.querySelector('p').textContent = entry.description;
+        fadeElement.querySelector('img').src = entry.image;
+      // @ts-ignore
+      fadeElement.style.display = 'block';
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+       // @ts-ignore
+       fadeElement.style.opacity = '1'
+       // @ts-ignore
+       fadeElement.style.transform = 'translateY(0)';
+      }, 10); // Small timeout to trigger the transition
+    }
 });
 
-document.querySelector('#stairway-1')?.addEventListener('click', function() {
+})
+
+
+
+document.querySelectorAll('tr').forEach((element) => {
+element.addEventListener('click', function() {
   let fadeElement = document.querySelector('.fade-element');
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return };
 
-  console.log('toggled shown')
-
   fadeElement.classList.toggle('shown')
 })
+});
 
-document.querySelector('#stairway-1')?.addEventListener('mouseleave', function() {
+document.querySelector('table')?.addEventListener('mouseleave', function() {
   let fadeElement = document.querySelector('.fade-element');
   if (!fadeElement) { return }
   else if (window.innerWidth < 768) { return }
