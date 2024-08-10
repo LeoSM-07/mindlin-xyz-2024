@@ -1,0 +1,33 @@
+---
+import Layout from "../..//layouts/Layout.astro";
+import { getCollection, getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("projects");
+  return collection.map((entry) => ({
+    params: {
+      project: entry.slug,
+    },
+  }));
+}
+
+const { project } = Astro.params;
+
+const entry = await getEntry("projects", project);
+
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+  <article class="project space-y-4 mx-auto max-w-screen-md">
+    <a href="/">
+      <h3>{entry.data.title}</h3>
+    </a>
+
+    <div class="flex flex-row gap-2 items-center">
+      {entry.data.technologies.map((tech) => <span class="chip">{tech}</span>)}
+    </div>
+
+    <Content />
+  </article>
+</Layout>

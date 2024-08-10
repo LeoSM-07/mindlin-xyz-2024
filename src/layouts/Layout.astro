@@ -1,49 +1,66 @@
 ---
-import '@fontsource-variable/space-grotesk';
-import PostHog from '../components/posthog.astro';
+import "@fontsource-variable/space-grotesk";
+import PostHog from "../components/posthog.astro";
 interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html class="max-w-screen " lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="" />
+<html class="max-w-screen" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="" />
     <meta name="viewport" content="width=device-width" />
-    <meta property="og:title" content="Léo Mindlin | Student & Developer"/>
-    <meta property="og:site_name" content="Léo Mindlin">
-    <meta property="og:description" content="Student at McGill passionate about development." />
-    <meta property="og:image" content="https://mindlin.xyz/og-image.png"/>
+    <meta property="og:title" content="Léo Mindlin | Student & Developer" />
+    <meta property="og:site_name" content="Léo Mindlin" />
+    <meta
+      property="og:description"
+      content="Student at McGill passionate about development."
+    />
+    <meta property="og:image" content="https://mindlin.xyz/og-image.png" />
     <meta property="og:url" content="https://mindlin.xyz/" />
     <meta property="og:type" content="website" />
-		<link rel="icon" type="image/svg+xml" href="/favicon-light.svg" media="(prefers-color-scheme: light)" />
-		<link rel="icon" type="image/svg+xml" href="/favicon-dark.svg" media="(prefers-color-scheme: dark)" />
-		<title>{title}</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon-light.svg"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon-dark.svg"
+      media="(prefers-color-scheme: dark)"
+    />
+    <title>{title}</title>
     <PostHog />
-	</head>
-	<body class="p-5 sm:p-10 space-x-10 flex flex-row">
+    <script
+      src="https://unpkg.com/htmx.org@1.9.6"
+      integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
+      crossorigin="anonymous"></script>
+  </head>
+  <body hx-swap class="p-5 sm:p-10 space-x-10 flex flex-row">
     <slot />
-	</body>
+  </body>
 </html>
 <style is:global>
-
   :root {
     color-scheme: light dark;
   }
 
-	html {
-    font-family: 'Space Grotesk Variable', sans-serif;
+  html {
+    font-family: "Space Grotesk Variable", sans-serif;
     color: light-dark(hsl(0, 0%, 33%), hsl(0, 0%, 67%));
     background: light-dark(hsl(0deg, 0%, 95%), hsl(0, 0%, 5%));
     margin: 0;
     padding: 0;
   }
 
-  ::-moz-selection { /* Code for Firefox */
+  ::-moz-selection {
+    /* Code for Firefox */
     color: hsl(0, 0%, 95%);
     background: hsl(0, 0%, 15%);
   }
@@ -55,5 +72,73 @@ const { title } = Astro.props;
   body {
     margin: 0;
     padding: 2.5rem;
+  }
+
+  <style is:global > .fade-element {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    display: none;
+  }
+
+  .chip {
+    background-color: light-dark(hsl(0, 0%, 90%), hsl(0, 0%, 10%));
+    color: light-dark(hsl(0, 0%, 10%), hsl(0, 0%, 90%));
+    @apply px-2;
+    @apply py-1;
+    @apply rounded-md;
+    @apply text-sm;
+  }
+
+  h1 {
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+  }
+
+  h3 {
+    @apply text-3xl;
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+  }
+
+  img {
+    @apply mx-auto;
+  }
+
+  a {
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+    font-weight: 475;
+    transition: all 0.15s ease-out;
+  }
+
+  a:hover {
+    font-weight: 650;
+  }
+
+  .tr {
+    color: light-dark(hsl(0, 0%, 33%), hsl(0, 0%, 67%));
+    font-weight: 475;
+  }
+
+  .tr:hover {
+    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
+    font-weight: 550;
+    transition: all 0.5s ease-out;
+  }
+
+  .project.htmx-added {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .project {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
 </style>

@@ -1,5 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 interface Data {
   id: string;
@@ -10,192 +11,87 @@ interface Data {
   image: string;
 }
 
-const entries: Data[] = [
-  {
-    id: "tellavision",
-    title: "TellAVision Agency Website",
-    description: "Developed a bespoke user experience with seamless page transitions, optimized page layouts to display hundreds of images and videos, and integrated a customized backend control panel. My website is currently in production and has aided in the conversion of new clients.",
-    date: "2024",
-    tech: "Next.JS",
-    image: "images/tellavision.png",
-  },
-  {
-    id: "stairway-1",
-    title: "Stairway Ticketing System V1",
-    description: "An event ticketing platform that was created to serve the specific needs of the Santa Monica-Malibu Unified School District. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.",
-    date: "2024",
-    tech: "Next.JS",
-    image: "/images/stairway.png",
-  },
-  {
-    id: "stairway-program",
-    title: "Stairway of the Stars 2024 Event Program",
-    description: "Designed and created the event program for the 2024 Stairway of the Stars event.",
-    date: "2024",
-    tech: "Affinity Publisher",
-    image: "/images/stairway-program.jpeg"
-  }
-]
+const entries = await getCollection("projects");
+entries.sort((a, b) => {
+  return a.data.sortOrder - b.data.sortOrder;
+});
 ---
 
 <Layout title="Léo Mindlin">
   <main class="sm:max-w-md sm:min-w-[28rem] w-full space-y-4 pb-10">
     <h1 class="text-4xl">Léo Mindlin</h1>
-    <p>Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/">McGill University</a> studying software engineering in the <a target="_blank" href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op">Co-op Program</a>. Originally from sunny Santa Monica, California.</p>
-    <p>Interested in web development, native iOS development, graphics programming, smart home automation, and the Internet of Things.</p>
-    <p>I'm currently making projects with <a target="_blank" href="https://www.swift.org/">Swift</a>, <a target="_blank" href="https://developer.apple.com/xcode/swiftui/">SwiftUI</a>, <a target="_blank" href="https://nextjs.org/">Next.JS</a>, <a href="https://astro.build/" target="_blank">Astro</a>, and <a href="https://neovim.io/" target="_blank">NeoVim</a>. I also enjoy using Blender, Final Cut, Photoshop, and After Effects.</p>
+    <p>
+      Undergaduate student at <a target="_blank" href="https://www.mcgill.ca/"
+        >McGill University</a
+      > studying software engineering in the <a
+        target="_blank"
+        href="https://www.mcgill.ca/ece/undergrad/information/software-engineering-co-op"
+        >Co-op Program</a
+      >. Originally from sunny Santa Monica, California.
+    </p>
+    <p>
+      Interested in web development, native iOS development, graphics
+      programming, smart home automation, and the Internet of Things.
+    </p>
+    <p>
+      I'm currently making projects with <a
+        target="_blank"
+        href="https://www.swift.org/">Swift</a
+      >, <a target="_blank" href="https://developer.apple.com/xcode/swiftui/"
+        >SwiftUI</a
+      >, <a target="_blank" href="https://nextjs.org/">Next.JS</a>, <a
+        href="https://astro.build/"
+        target="_blank">Astro</a
+      >, and <a href="https://neovim.io/" target="_blank">NeoVim</a>. I also
+      enjoy using Blender, Final Cut, Photoshop, and After Effects.
+    </p>
 
     <hr />
 
-    <div class="space-y-1">
     <h2 class="text-3xl">My Work</h2>
 
-    <table class="w-full">
-{entries.map((entry) => (
-  <tr id={entry.id} class="border-t first:border-none cursor-pointer align-top">
-    <td class="pr-2 py-3">{entry.date}</td>
-    <td class="py-3">{entry.title}</td>
-    <td class="text-right py-3">{entry.tech}</td>
-      </tr>
-))}
-    </table>
+    <div class="w-full">
+      {
+        entries.map((entry) => (
+          <a
+            id={entry.id}
+            href={
+              entry.data.relatedArticle
+                ? `/article/${entry.data.relatedArticle.slug}`
+                : `/project/${entry.slug}`
+            }
+            class="tr border-t first:border-none align-top py-3 flex flex-row gap-2"
+            hx-get={`/partials/project/${entry.slug}`}
+            hx-trigger="mouseenter, focus"
+            hx-target="#preview-container"
+            hx-swap="innerHTML"
+            hx-sync="this:replace"
+          >
+            <div class="">{entry.data.year}</div>
+            <div class="w-full">{entry.data.title}</div>
+            {/* <td class="text-right py-3">{entry.tech}</td> */}
+          </a>
+        ))
+      }
     </div>
     <hr />
     <h2 id="contact" class="text-3xl">Contact</h2>
     <p>Feel free to reach out for any inquiries or connections.</p>
     <ul class="space-y-1">
       <li>Email: <a href="mailto:leo@mindlin.xyz">leo@mindlin.xyz</a></li>
-      <li>Twitter: <a target="_blank" href="http://x.com/mindlin_xyz">@mindlin_xyz</a></li>
-      <li>LinkedIn: <a target="_blank" href="https://www.linkedin.com/in/leo-mindlin">Léo Mindlin</a></li>
+      <li>
+        Twitter: <a target="_blank" href="http://x.com/mindlin_xyz"
+          >@mindlin_xyz</a
+        >
+      </li>
+      <li>
+        LinkedIn: <a
+          target="_blank"
+          href="https://www.linkedin.com/in/leo-mindlin">Léo Mindlin</a
+        >
+      </li>
     </ul>
   </main>
-  <div class="w-full gap-2 sm:block hidden">
-  <aside class="fade-element space-y-2">
-    <h3 class="text-3xl">Stairway Ticketing System V1</h3>
-      <p>An event ticketing platform that was created to serve the specific needs of the <a href="https://www.smmusd.org/" target="_blank">Santa Monica-Malibu Unified School District</a>. This entire system from ticket ordering to ticket redemption at the venue was completed as a solo project during my senior year of high school.</p>
-      <div class="w-full flex flex-row justify-center">
-        <img src="" class="" alt="" />
-      </div>
-  </aside>
-  </div>
+
+  <div id="preview-container" class="w-full md:block hidden"></div>
 </Layout>
-
-<script define:vars={{ entries }}>
-let currentId = '';
-// @ts-ignore
-let timeoutId;
-
-document.querySelectorAll('tr').forEach((element) => {
-  element.addEventListener('mouseenter', function() {
-    let fadeElement = document.querySelector('.fade-element');
-    if (!fadeElement) { return }
-    else if (window.innerWidth < 768) { return };
-
-
-    const entry = entries.find((entry) => entry.id === element.id);
-
-    if (fadeElement.style.display === 'block' && currentId !== entry.id) {
-  // @ts-ignore
-    fadeElement.style.transform = 'translateY(20px)';
-  // @ts-ignore
-    fadeElement.style.opacity = '0';
-
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        fadeElement.querySelector('h3').textContent = entry.title;
-        fadeElement.querySelector('p').textContent = entry.description;
-        fadeElement.querySelector('img').src = "";
-        fadeElement.querySelector('img').src = entry.image;
-        currentId = entry.id;
-    fadeElement.style.opacity = '1'
-  // @ts-ignore
-    fadeElement.style.transform = 'translateY(0)';
-      }, 500);
-
-    } else {
-        fadeElement.querySelector('h3').textContent = entry.title;
-        fadeElement.querySelector('p').textContent = entry.description;
-      fadeElement.querySelector('img').src = entry.image;
-      currentId = entry.id;
-      // @ts-ignore
-      fadeElement.style.display = 'block';
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-       // @ts-ignore
-       fadeElement.style.opacity = '1'
-       // @ts-ignore
-       fadeElement.style.transform = 'translateY(0)';
-      }, 10); // Small timeout to trigger the transition
-    }
-});
-
-})
-
-
-
-document.querySelectorAll('tr').forEach((element) => {
-element.addEventListener('click', function() {
-  let fadeElement = document.querySelector('.fade-element');
-  if (!fadeElement) { return }
-  else if (window.innerWidth < 768) { return };
-
-  fadeElement.classList.toggle('shown')
-})
-});
-
-document.querySelector('table')?.addEventListener('mouseleave', function() {
-  let fadeElement = document.querySelector('.fade-element');
-  if (!fadeElement) { return }
-  else if (window.innerWidth < 768) { return }
-  else if (fadeElement.classList.contains('shown')) { return };
-
-  // @ts-ignore
-    fadeElement.style.transform = 'translateY(20px)';
-  // @ts-ignore
-  fadeElement.style.opacity = '0';
-  currentId = '';
-  // @ts-ignore
-  clearTimeout(timeoutId);
-  // @ts-ignore
-  timeoutId = setTimeout(() => fadeElement.style.display = 'none', 500); // Match with the transition duration
-
-});
-</script>
-
-<style is:global>
-.fade-element {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  display: none;
-}
-tr:hover {
-    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
-    font-weight: 475;
-    transition: all 0.15s ease-out;
-  }
-
-  h1 {
-    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
-}
-
-h2 {
-    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
-}
-
-h3 {
-    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
-}
-  a {
-    color: light-dark(hsl(0, 0%, 15%), hsl(0, 0%, 85%));
-    font-weight: 475;
-    transition: all 0.15s ease-out;
-  }
-
-  a:hover {
-    font-weight: 650;
-  }
-</style>

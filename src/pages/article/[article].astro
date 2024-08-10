@@ -1,0 +1,31 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, getEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const collection = await getCollection("articles");
+  return collection.map((entry) => ({
+    params: {
+      article: entry.slug,
+    },
+  }));
+}
+
+const { article } = Astro.params;
+
+const entry = await getEntry("articles", article);
+
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.title}>
+  <article class="project space-y-4 mx-auto max-w-screen-md">
+    <a href="/">
+      <h3>{entry.data.title}</h3>
+    </a>
+
+    <p>Léo Mindlin • {entry.data.publishDate.toLocaleDateString()}</p>
+
+    <Content />
+  </article>
+</Layout>

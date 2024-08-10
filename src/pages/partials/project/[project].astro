@@ -1,0 +1,29 @@
+---
+import { getCollection, getEntry } from "astro:content";
+export const partial = true;
+
+export async function getStaticPaths() {
+  const collection = await getCollection("projects");
+  return collection.map((entry) => ({
+    params: {
+      project: entry.slug,
+    },
+  }));
+}
+
+const { project } = Astro.params;
+
+const entry = await getEntry("projects", project);
+
+const { Content } = await entry.render();
+---
+
+<div id="" class="project space-y-4">
+  <h3>{entry.data.title}</h3>
+
+  <div class="flex flex-row gap-2 items-center">
+    {entry.data.technologies.map((tech) => <span class="chip">{tech}</span>)}
+  </div>
+
+  <Content />
+</div>
