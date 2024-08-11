@@ -19,13 +19,31 @@ const { Content } = await entry.render();
 ---
 
 <Layout title={entry.data.title}>
-  <article class="project space-y-4 mx-auto max-w-screen-md">
+  <article  class="project space-y-4 mx-auto max-w-screen-md">
     <a href="/">
-      <h3>{entry.data.title}</h3>
+      <h1 class="text-3xl">{entry.data.title}</h1>
     </a>
 
     <p>Léo Mindlin • {entry.data.publishDate.toLocaleDateString()}</p>
 
     <Content />
+
+    <footer
+      class="p-4 border border-[hsl(0,0%,75%)] rounded-md flex flex-col gap-4"
+    >
+      <span class="text-lg">Thank you for reading</span>
+      <span>
+        I'm a university student currently looking for internships. If you have
+        any opportunities or just want to chat, feel free to reach out to me <a
+          href="https://twitter.com/mindlin_xyz"
+          target="_blank">on Twitter</a
+        >. Otherwise you can also find me <a
+          href="https://www.linkedin.com/in/leo-mindlin"
+          target="_blank">on LinkedIn</a
+        >.
+      </span>
+
+      <span> - Léo </span>
+    </footer>
   </article>
 </Layout>

@@ -18,7 +18,7 @@ const entry = await getEntry("projects", project);
 const { Content } = await entry.render();
 ---
 
-<div id="" class="project space-y-4">
+<article id="" class="project space-y-4">
   <h3>{entry.data.title}</h3>
 
   <div class="flex flex-row gap-2 items-center">
@@ -26,4 +26,4 @@ const { Content } = await entry.render();
   </div>
 
   <Content />
-</div>
+</article>

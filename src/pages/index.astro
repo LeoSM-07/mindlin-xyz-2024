@@ -2,15 +2,6 @@
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
-interface Data {
-  id: string;
-  title: string;
-  description: string;
-  date: string;
-  tech: string;
-  image: string;
-}
-
 const entries = await getCollection("projects");
 entries.sort((a, b) => {
   return a.data.sortOrder - b.data.sortOrder;
@@ -62,7 +53,7 @@ entries.sort((a, b) => {
             }
             class="tr border-t first:border-none align-top py-3 flex flex-row gap-2"
             hx-get={`/partials/project/${entry.slug}`}
-            hx-trigger="mouseenter, focus"
+            hx-trigger="mouseenter"
             hx-target="#preview-container"
             hx-swap="innerHTML"
             hx-sync="this:replace"
