@@ -48,7 +48,8 @@ entries.sort((a, b) => {
             id={entry.id}
             href={
               entry.data.relatedArticle
-                ? `/article/${entry.data.relatedArticle.slug}`
+                ? // ? `/article/${entry.data.relatedArticle.slug}`
+                  `/project/${entry.slug}`
                 : `/project/${entry.slug}`
             }
             class="tr border-t first:border-none align-top py-3 flex flex-row gap-2"
